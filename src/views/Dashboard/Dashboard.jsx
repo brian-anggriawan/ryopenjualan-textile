@@ -15,18 +15,18 @@ class Dashboard extends React.Component {
   }
 
   componentDidMount(){
-    apiGet('dashboard/chart_pemasukan_tahun')
+    apiGet('/dashboard/chart_pemasukan_tahun')
         .then(res =>{
           this.setState({ pemasukan: res })
         });
 
-    apiGet('dashboard/chart_pengeluaran_tahun')
+    apiGet('/dashboard/chart_pengeluaran_tahun')
         .then(res =>{
           this.setState({ pengeluaran: res })
         });
       
 
-    apiGet('dashboard/jumlah_penjualan')
+    apiGet('/dashboard/jumlah_penjualan')
         .then(res =>{
           this.setState({ penjualan: res })
         })

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import Modal from 'layouts/list_modal';
 import Tabel from 'components/tabel_pick';
-import {  Input } from 'reactstrap';
+import {  Input , Button } from 'reactstrap';
 import { formatRupiah } from 'app';
+import Loading from 'components/Loading';
 
 export default class list_jasa extends Component {
 
@@ -29,7 +30,7 @@ export default class list_jasa extends Component {
 
 
     render() {
-        let { mode , modal , jasa} = this.props;
+        let { mode , modal , jasa , loading ,refresh} = this.props;
         let { value } = this.state;
 
         let filter = jasa.filter(x => {
@@ -55,38 +56,45 @@ export default class list_jasa extends Component {
         
         return (
             <Modal title={'List Jasa'} mode={mode} modal={modal}>
-                <div className='mb-3'>
-                    <Input autoFocus={true} type='text' placeholder='Search Nama Jasa Atau Jenis' onKeyUp={(e)=> pick(e.keyCode)} onChange={(e)=> this.setState({ value: e.target.value  })} value={value} />
-                </div>
-                 <Tabel
-                    data ={filter}
-                    keyField = {'id'}
-                    rowEvents={rowEvents}
-                    columns ={[
-                    {
-                        dataField: 'kode_jasa',
-                        text: 'Kode Jasa'
-                    },
-                    {
-                        dataField: 'nama_jasa',
-                        text: 'Nama Jasa'
-                    },
-                    {
-                        dataField: 'jenis',
-                        text: 'Jenis'
-                    },
-                    {
-                        dataField: 'satuan',
-                        text: 'Satuan'
-                    },
-                    {
-                        dataField: 'harga_jual',
-                        formatter: this.rupiah,
-                        text: 'Harga 1'
-                    }
-                    ]}                            
-                    width={{ width:'300px'}}
-                />
+                <Button type='button' size='sm' color='success' onClick={refresh} style={{ width:'100%'}}>Refresh Jasa</Button>
+                {
+                    loading ? <Loading active={loading} />
+                    :
+                    <div>
+                         <div className='mb-3'>
+                            <Input autoFocus={true} type='text' placeholder='Search Nama Jasa Atau Jenis' onKeyUp={(e)=> pick(e.keyCode)} onChange={(e)=> this.setState({ value: e.target.value  })} value={value} />
+                        </div>
+                        <Tabel
+                            data ={filter}
+                            keyField = {'id'}
+                            rowEvents={rowEvents}
+                            columns ={[
+                            {
+                                dataField: 'kode_jasa',
+                                text: 'Kode Jasa'
+                            },
+                            {
+                                dataField: 'nama_jasa',
+                                text: 'Nama Jasa'
+                            },
+                            {
+                                dataField: 'jenis',
+                                text: 'Jenis'
+                            },
+                            {
+                                dataField: 'satuan',
+                                text: 'Satuan'
+                            },
+                            {
+                                dataField: 'harga_jual',
+                                formatter: this.rupiah,
+                                text: 'Harga 1'
+                            }
+                            ]}                            
+                            width={{ width:'300px'}}
+                        />
+                            </div>
+                }
             </Modal>
         )
     }
