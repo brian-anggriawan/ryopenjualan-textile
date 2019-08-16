@@ -1,0 +1,13 @@
+#card {
+    border: 1px solid #2CA8FF;
+}
+
+#card :hover {
+    background-color: #2CA8FF;
+    color: white;
+}
+
+#list{
+    height: 500px;
+    overflow-y: scroll;
+}
