@@ -42,7 +42,13 @@ export default class form_proses_produksi extends Component {
                         name={`bahan${id}`} className='select' tabIndex={index + 1 } />
                     </td>
                     <td>
-                        <Input type='text' name={`area${id}`} tabIndex={index + 2 } onKeyDown={(e)=> this.dinamicRow(e.keyCode , id)} />
+                        <Input type='text' name={`area${id}`} tabIndex={index + 2 }/>
+                    </td>
+                    <td>
+                        <Input type='text' name={`jumlah${id}`} tabIndex={index + 3 } />
+                    </td>
+                    <td>
+                        <Input type='text' name={`kesalahan${id}`} tabIndex={index + 4 } onKeyDown={(e)=> this.dinamicRow(e.keyCode , id)} />
                     </td>
                 </tr>
             )
@@ -114,6 +120,8 @@ export default class form_proses_produksi extends Component {
             arrayDt.push({
                 nama_jenis_bahan:detail[`bahan${x.key}`] || '',
                 area_cetak:detail[`area${x.key}`] || '',
+                jumlah_cetak:detail[`jumlah${x.key}`] || '',
+                kesalahan:detail[`kesalahan${x.key}`] || ''
             })
         ))
 
@@ -171,6 +179,8 @@ export default class form_proses_produksi extends Component {
                                     <tr>
                                         <th>Jenis Bahan</th>
                                         <th>Area Cetak</th>
+                                        <th>Jumlah Cetak</th>
+                                        <th>Kesalahan</th>
                                     </tr>
                                 </thead>
                                 <tbody>

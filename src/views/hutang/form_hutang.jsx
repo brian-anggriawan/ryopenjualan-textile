@@ -74,7 +74,7 @@ export default class form_hutang extends Component {
                         { loading ? <Loading active={loading} />
                             :
                             <Tabel
-                                data ={[dataBayar]}
+                                data ={dataBayar}
                                 keyField = {'id'}
                                 columns ={[
                                     {
@@ -100,7 +100,7 @@ export default class form_hutang extends Component {
                     </div> 
                     : flag === 2 ?
                         <Tabel
-                            data ={[dataBayar]}
+                            data ={dataBayar}
                             keyField = {'id'}
                             columns ={[
                                 {

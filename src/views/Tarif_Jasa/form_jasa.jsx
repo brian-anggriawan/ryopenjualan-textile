@@ -83,7 +83,7 @@ export default class form_jasa extends Component {
                             </FormGroup>
                             <FormGroup>
                                 <Label for='harga_jual'>Harga Jual 1</Label>
-                                <Input type='text' name='harga_jual' id='harga_jual' onKeyUp={(e)=> inputRupiah('harga_jual',e.target.value) } defaultValue={formatRupiah(edit.harga,'')}/>
+                                <Input type='text' name='harga_jual' id='harga_jual' onKeyUp={(e)=> inputRupiah('harga_jual',e.target.value) } defaultValue={formatRupiah(edit.harga_jual,'')}/>
                             </FormGroup>
                         </div>
                         :

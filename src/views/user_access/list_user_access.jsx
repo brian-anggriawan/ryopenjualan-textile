@@ -4,7 +4,7 @@ import { Button , Row ,Col} from 'reactstrap';
 import Tabel from 'components/tabel';
 import { IoMdTrash } from 'react-icons/io';
 import List from './list_menu';
-import { apiGet , apiPostGet , msgdialog , apiPost ,msgerror} from 'app';
+import { apiGet , apiPostGet , msgdialog , apiPost ,msgerror } from 'app';
 import Select from 'react-select';
 import Loading from 'components/Loading';
 import menu from './menu';

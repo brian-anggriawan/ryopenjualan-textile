@@ -3,7 +3,7 @@ import Page from 'layouts/Page';
 import { Button , Input , Form } from 'reactstrap';
 import Tabel from 'components/tabel';
 import ButtonAction from 'components/ButtonAction';
-import { apiGet , apiPost , msgdialog } from 'app';
+import { apiGet , apiPost , msgdialog , dataUser } from 'app';
 import Loading from 'components/Loading';
 
 class Jenisbiaya extends React.Component {
@@ -83,9 +83,8 @@ class Jenisbiaya extends React.Component {
   }
 
   button(id){
-    return (
-      <ButtonAction hapus={()=> this.delete(id)} edit={()=> this.edit(id)} />
-    )
+    return  dataUser().tingkatan === 'Owner' ? <ButtonAction hapus={()=> this.delete(id)} edit={()=> this.edit(id)}  />
+    : <Button type='button' color='danger' size='sm'>No Access</Button>
   }
 
   render() {
