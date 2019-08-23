@@ -6,6 +6,7 @@ import serialize from 'form-serialize';
 import { apiPost  , apiGet , inputRupiah ,formatRupiah , formatTanggal , rupiahToNumber ,dataUser} from 'app';
 import cuid from 'cuid';
 import Loading from 'components/Loading';
+import { IoMdTrash } from 'react-icons/io';
 
 export default class form_pengeluaran extends Component {
     constructor(){
@@ -21,6 +22,7 @@ export default class form_pengeluaran extends Component {
         this.addRow = this.addRow.bind(this);
         this.dinamicRow = this.dinamicRow.bind(this);
         this.hitungTotalHarga = this.hitungTotalHarga.bind(this);
+        this.deleteRow = this.deleteRow.bind(this);
     }
 
     addRow(){
@@ -37,6 +39,9 @@ export default class form_pengeluaran extends Component {
                     </td>
                     <td>
                         <Input type='text' name={`jumlah${id}`} id={`jumlah${id}`} tabIndex={index + 2 } onKeyUp={(e)=> this.dinamicRow(e.keyCode , id ,e.target.value)} />
+                    </td>
+                    <td>
+                        <Button color='danger' size='sm' onClick={()=> this.deleteRow(id)} tabIndex='0'><IoMdTrash /></Button>
                     </td>
                 </tr>
             )
@@ -109,6 +114,11 @@ export default class form_pengeluaran extends Component {
         })  
     }
 
+    deleteRow(id){
+        this.setState({row: this.state.row.filter( x => x.key !== id) }) 
+    }
+    
+
 
     render() {
         let { modal , mode } = this.props;
@@ -136,6 +146,7 @@ export default class form_pengeluaran extends Component {
                                         <tr>
                                             <th>Keterangan</th>
                                             <th>Nominal</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>

@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import Page from 'layouts/Page';
 import Tabel from 'components/tabel';
-import { apiGet , formatRupiah , urlServer , apiPostGet  } from 'app';
-import { Button  } from 'reactstrap';
+import { apiGet , formatRupiah , urlServer , apiPostGet , formatTanggal , getDate   } from 'app';
+import { Button  , Row , Col  } from 'reactstrap';
 import Detail from './list_nota';
 import Loading from 'components/Loading';
+import Date from 'react-datetime';
+import 'moment/locale/de';
+import 'react-datetime/css/react-datetime.css';
 
 export default class list_penjualan extends Component {
     constructor(){
@@ -15,11 +18,14 @@ export default class list_penjualan extends Component {
             detail:[],
             nonota:'',
             loading: true,
+            tanggal1: getDate(),
+            tanggal2: getDate()
         }
         this.mode = this.mode.bind(this);
         this.button = this.button.bind(this);
         this.cetak = this.cetak.bind(this);
         this.detail = this.detail.bind(this);
+        this.getDataWithDate = this.getDataWithDate.bind(this);
     }
 
     mode(){
@@ -62,6 +68,17 @@ export default class list_penjualan extends Component {
         this.mode();
     }
 
+    getDataWithDate(){
+       let { tanggal1 , tanggal2 } = this.state; 
+       this.setState({ loading: true });
+
+       apiPostGet('/riwayat_penjualan/filter_tanggal', { tanggal_dari : tanggal1 , tanggal_sampai: tanggal2})
+            .then(res =>{
+                this.setState({ header: res.data , loading: false })
+            })
+
+        
+    }
 
     render() {
         let { modal , header , detail ,nonota , loading } = this.state;
@@ -69,7 +86,7 @@ export default class list_penjualan extends Component {
 
         if (loading){
             return(
-              <Page title={'Data Penjualana'}>
+              <Page title={'Data Penjualan'}>
                 <Loading active={loading} />
               </Page>
             ) 
@@ -77,6 +94,17 @@ export default class list_penjualan extends Component {
         return (
             <Page title={'Data Penjualan'}>
                 <Detail modal={modal} mode={this.mode} data={detail} nota={nonota} />
+                <Row>
+                    <Col>
+                        <Date dateFormat="DD-MM-YYYY" className='mt-2' timeFormat={false} defaultValue={getDate()} onChange={(e)=> this.setState({ tanggal1: formatTanggal(e._d) })}/>
+                    </Col>
+                    <Col>
+                        <Date dateFormat="DD-MM-YYYY" className='mt-2' timeFormat={false} defaultValue={getDate()} onChange={(e)=> this.setState({ tanggal2: formatTanggal(e._d) })}/>
+                    </Col>
+                    <Col>
+                        <Button type='button' size='sm' color='success' onClick={this.getDataWithDate}>Cari Data</Button>
+                    </Col>
+                 </Row>
                 <Tabel
                 data ={header}
                 keyField = {'id'}

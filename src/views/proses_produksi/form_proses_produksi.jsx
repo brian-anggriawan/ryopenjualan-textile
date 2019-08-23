@@ -7,6 +7,7 @@ import Select from 'react-select';
 import { Button } from 'reactstrap';
 import Serialize from 'form-serialize';
 import Loading from 'components/Loading';
+import { IoMdTrash } from 'react-icons/io';
 
 export default class form_proses_produksi extends Component {
     constructor(){
@@ -23,6 +24,8 @@ export default class form_proses_produksi extends Component {
         this.dinamicRowNota = this.dinamicRowNota.bind(this);
         this.simpan = this.simpan.bind(this);
         this.addRowNota = this.addRowNota.bind(this);
+        this.deleteHD = this.deleteHD.bind(this);
+        this.deleteDT = this.deleteDT.bind(this);
     }
 
     addRow(){
@@ -45,10 +48,13 @@ export default class form_proses_produksi extends Component {
                         <Input type='text' name={`area${id}`} tabIndex={index + 2 }/>
                     </td>
                     <td>
-                        <Input type='text' name={`jumlah${id}`} tabIndex={index + 3 } />
+                        <Input type='number' name={`jumlah${id}`} tabIndex={index + 3 } />
                     </td>
                     <td>
-                        <Input type='text' name={`kesalahan${id}`} tabIndex={index + 4 } onKeyDown={(e)=> this.dinamicRow(e.keyCode , id)} />
+                        <Input type='number' name={`kesalahan${id}`} tabIndex={index + 4 } onKeyDown={(e)=> this.dinamicRow(e.keyCode , id)} />
+                    </td>
+                    <td>
+                        <Button color='danger' size='sm' onClick={()=> this.deleteHD(id)} tabIndex='0'><IoMdTrash /></Button>
                     </td>
                 </tr>
             )
@@ -71,6 +77,9 @@ export default class form_proses_produksi extends Component {
                             label: x.no_nota
                             }))}
                         name={`nota${id}`} className='select' tabIndex={index + 1 } onKeyDown={(e)=> this.dinamicRowNota(e.keyCode , id)}/>
+                    </td>
+                    <td>
+                        <Button color='danger' size='sm' onClick={()=> this.deleteDT(id)} tabIndex='0'><IoMdTrash /></Button>
                     </td>
                 </tr>
             )
@@ -120,8 +129,8 @@ export default class form_proses_produksi extends Component {
             arrayDt.push({
                 nama_jenis_bahan:detail[`bahan${x.key}`] || '',
                 area_cetak:detail[`area${x.key}`] || '',
-                jumlah_cetak:detail[`jumlah${x.key}`] || '',
-                kesalahan:detail[`kesalahan${x.key}`] || ''
+                jumlah_cetak:detail[`jumlah${x.key}`] || 0,
+                kesalahan:detail[`kesalahan${x.key}`] || 0
             })
         ))
 
@@ -131,8 +140,7 @@ export default class form_proses_produksi extends Component {
 
         rowNota.map(x =>(
             arrayHd.push({
-                no_nota: header[`nota${x.key}`],
-                detail: dt
+                no_nota: header[`nota${x.key}`]
             })  
 
         ))
@@ -140,6 +148,7 @@ export default class form_proses_produksi extends Component {
         let data = {};
             data.operator = dataUser().username;
             data.header = arrayHd.filter(x => x.no_nota !== undefined);
+            data.detail = dt;
         
         apiPost('operator_produksi/tambah' , data)
             .then(res =>{
@@ -149,6 +158,15 @@ export default class form_proses_produksi extends Component {
                 }
             })
 
+
+    }
+
+    deleteHD(id){
+        this.setState({ row: this.state.row.filter( x => x.key !== id) })
+    }
+
+    deleteDT(id){
+        this.setState({ rowNota: this.state.rowNota.filter( x => x.key !== id) })
     }
 
     render() {
@@ -165,6 +183,7 @@ export default class form_proses_produksi extends Component {
                                 <thead>
                                     <tr>
                                         <th>Nota</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -181,6 +200,7 @@ export default class form_proses_produksi extends Component {
                                         <th>Area Cetak</th>
                                         <th>Jumlah Cetak</th>
                                         <th>Kesalahan</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>

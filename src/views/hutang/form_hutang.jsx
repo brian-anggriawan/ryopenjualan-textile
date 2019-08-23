@@ -5,14 +5,18 @@ import { Input , Button , Form , FormGroup , Label} from 'reactstrap';
 import { formatRupiah , inputRupiah, rupiahToNumber , apiPost , apiGet1} from 'app';
 import Serialize from 'form-serialize';
 import Loading from 'components/Loading';
+import Select from 'react-select';
 
 export default class form_hutang extends Component {
     constructor(){
         super()
-        this.state={}
+        this.state={
+            flagnorek: false
+        }
 
         this.save = this.save.bind(this);
         this.check = this.check.bind(this);
+        this.metode = this.metode.bind(this);
     }
 
     format(value){
@@ -33,6 +37,8 @@ export default class form_hutang extends Component {
         data.bayar = bayar;
         data.sisa = sisa;
         data.kembali = nota.kembali;
+        data.metode_pembayaran = data.metode_pembayaran || '0';
+        data.nama_bank = data.nama_bank || '0';
 
         apiPost('pembayaran_hutang/tambah' ,data);
         
@@ -54,15 +60,73 @@ export default class form_hutang extends Component {
         }
     }
 
+    metode(e){
+        if (e.value === 'TRANSFER' || e.value === 'EDC') {
+            this.setState({ flagnorek: true });
+        }else{
+            this.setState({ flagnorek: false })   
+        }
+    }
+
     render() {
         let { modal , mode , title , dataBayar ,loading , flag } = this.props;
+        let { flagnorek } = this.state;
         return (
             <Modal modal={modal} mode={mode} title={title} >
                 {
                     flag === 1 ?
                     <div>
                          <Form id='save'>
-                            <Input type='text' name='bayar' className='mb-3' id='bayar' onKeyUp={(e)=> inputRupiah('bayar' , e.target.value)} />
+                             <FormGroup>
+                                <Label for='bayar'>Bayar</Label>
+                                <Input type='text' autoFocus={true} name='bayar' className='mb-3' id='bayar' onKeyUp={(e)=> inputRupiah('bayar' , e.target.value)} />
+                             </FormGroup>
+                             <FormGroup>
+                                <Label for='metode_pembayaran'>Metode Pembayaran</Label>
+                                <Select 
+                                    options={[
+                                        {
+                                            label: 'CASH',
+                                            value:'CASH'
+                                        },
+                                        {
+                                            label: 'TRANSFER',
+                                            value:'TRANSFER'
+                                        },
+                                        {
+                                            label: 'EDC',
+                                            value:'EDC'
+                                        }
+                                    ]}
+                                name='metode_pembayaran' onChange={this.metode} className='select'/>
+                             </FormGroup>
+                             {
+                                 flagnorek ?
+                                 <FormGroup>
+                                    <Label for='nama_bank'>Nama Bank </Label>
+                                    <Select 
+                                        options={[
+                                            {
+                                                label: 'BNI',
+                                                value:'BNI'
+                                            },
+                                            {
+                                                label: 'MANDIRI',
+                                                value:'MANDIRI'
+                                            },
+                                            {
+                                                label: 'BRI',
+                                                value:'BRI'
+                                            },
+                                            {
+                                                label: 'BCA',
+                                                value:'BCA'
+                                            }
+                                        ]}
+                                        name='nama_bank' id='nama_bank'  className='select'/>
+                                </FormGroup> 
+                                : ''
+                             }
                         </Form>
                         <FormGroup className='ml-4'>
                             <Input className="custom-control-input" type='checkbox' name='lunas' id='lunas' onChange={this.check} />
@@ -80,6 +144,14 @@ export default class form_hutang extends Component {
                                     {
                                         dataField: 'tanggal',
                                         text: 'Tanggal'
+                                    },
+                                    {
+                                        dataField: 'metode_pembayaran',
+                                        text: 'pembayaran'
+                                    },
+                                    {
+                                        dataField: 'nama_bank',
+                                        text: 'Bank'
                                     },
                                     {
                                         dataField: 'bayar',
@@ -104,18 +176,26 @@ export default class form_hutang extends Component {
                             keyField = {'id'}
                             columns ={[
                                 {
-                                        dataField: 'tanggal',
-                                        text: 'Tanggal'
+                                    dataField: 'tanggal',
+                                    text: 'Tanggal'
                                 },
                                 {
-                                        dataField: 'bayar',
-                                        text: 'Bayar',
-                                        formatter: this.format
+                                    dataField: 'metode_pembayaran',
+                                    text: 'pembayaran'
                                 },
                                 {
-                                        dataField: 'sisa',
-                                        text: 'Sisa',
-                                        formatter: this.format
+                                    dataField: 'nama_bank',
+                                    text: 'Bank'
+                                },
+                                {
+                                    dataField: 'bayar',
+                                    text: 'Bayar',
+                                    formatter: this.format
+                                },
+                                {
+                                    dataField: 'sisa',
+                                    text: 'Sisa',
+                                    formatter: this.format
                                 }
                             ]}                            
                             width={{ width:'300px'}}
