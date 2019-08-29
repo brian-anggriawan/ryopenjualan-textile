@@ -26,6 +26,12 @@ export default class form_proses_produksi extends Component {
         this.addRowNota = this.addRowNota.bind(this);
         this.deleteHD = this.deleteHD.bind(this);
         this.deleteDT = this.deleteDT.bind(this);
+        this.hitungAreaCetak = this.hitungAreaCetak.bind(this);
+    }
+
+    hitungAreaCetak(value , id , jumlah){
+        let nilai = document.getElementById(`${jumlah}${id}`).value || 0 ;
+        document.getElementById(`area${id}`).value = value * nilai;
     }
 
     addRow(){
@@ -45,13 +51,22 @@ export default class form_proses_produksi extends Component {
                         name={`bahan${id}`} className='select' tabIndex={index + 1 } />
                     </td>
                     <td>
-                        <Input type='text' name={`area${id}`} tabIndex={index + 2 }/>
+                        <Input type='number' name={`jumlah1${id}`} id={`jumlah1${id}`} tabIndex={index + 2 } onChange={(e)=> this.hitungAreaCetak(e.target.value , id , 'jumlah2')}/>
                     </td>
                     <td>
-                        <Input type='number' name={`jumlah${id}`} tabIndex={index + 3 } />
+                        <Input type='number' name={`jumlah2${id}`} id={`jumlah2${id}`} tabIndex={index + 3 } onChange={(e)=> this.hitungAreaCetak(e.target.value , id , 'jumlah1')} />
                     </td>
                     <td>
-                        <Input type='number' name={`kesalahan${id}`} tabIndex={index + 4 } onKeyDown={(e)=> this.dinamicRow(e.keyCode , id)} />
+                        <Input type='number' name={`area${id}`} id={`area${id}`} tabIndex={index + 4 } readOnly/>
+                    </td>
+                    <td>
+                        <Input type='number' name={`jumlah${id}`} tabIndex={index + 5 } />
+                    </td>
+                    <td>
+                        <Input type='text' name={`keterangan${id}`} tabIndex={index + 6 } />
+                    </td>
+                    <td>
+                        <Input type='number' name={`kesalahan${id}`} tabIndex={index + 7 } onKeyDown={(e)=> this.dinamicRow(e.keyCode , id)} />
                     </td>
                     <td>
                         <Button color='danger' size='sm' onClick={()=> this.deleteHD(id)} tabIndex='0'><IoMdTrash /></Button>
@@ -128,9 +143,12 @@ export default class form_proses_produksi extends Component {
         row.map(x => (
             arrayDt.push({
                 nama_jenis_bahan:detail[`bahan${x.key}`] || '',
-                area_cetak:detail[`area${x.key}`] || '',
+                jumlah1:detail[`jumlah1${x.key}`] || 0,
+                jumlah2:detail[`jumlah2${x.key}`] || 0,
+                area_cetak:detail[`area${x.key}`] || 0,
                 jumlah_cetak:detail[`jumlah${x.key}`] || 0,
-                kesalahan:detail[`kesalahan${x.key}`] || 0
+                kesalahan:detail[`kesalahan${x.key}`] || 0,
+                keterangan:detail[`keterangan${x.key}`] || ''
             })
         ))
 
@@ -197,8 +215,11 @@ export default class form_proses_produksi extends Component {
                                 <thead>
                                     <tr>
                                         <th>Jenis Bahan</th>
+                                        <th>Jumlah 1</th>
+                                        <th>Jumlah 2</th>
                                         <th>Area Cetak</th>
                                         <th>Jumlah Cetak</th>
+                                        <th>Keterangan</th>
                                         <th>Kesalahan</th>
                                         <th>Action</th>
                                     </tr>

@@ -1,5 +1,21 @@
 let Menu = [
     {
+      path: "/pelanggan",
+      name: "pelanggan",
+      icon: "business_badge",
+      component: 'Auth(Pelanggan)',
+      layout: "/admin",
+      group: 'setup'
+    },
+    {
+      path: "/supplier",
+      name: "supplier",
+      icon: "emoticons_satisfied",
+      component: 'Auth(Supplier)',
+      layout: "/admin",
+      group: 'setup'
+    },
+    {
       path: "/satuan",
       name: "Satuan",
       icon: "design-2_ruler-pencil",
@@ -92,6 +108,14 @@ let Menu = [
       name: "Pengeluaran",
       icon: "shopping_cart-simple",
       component: 'Auth(Pengeluaran)',
+      layout: "/admin",
+      group: 'transaksi'
+    },
+    {
+      path: "/pemasukkan",
+      name: "Pemasukkan",
+      icon: "files_single-copy-04",
+      component: 'Auth(Pemasukkan)',
       layout: "/admin",
       group: 'transaksi'
     },
