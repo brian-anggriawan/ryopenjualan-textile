@@ -1,10 +1,8 @@
 import Dashboard from "views/Dashboard/Dashboard";
 import Jenisbiaya from 'views/Jenis_biaya/list_jenisbiaya';
-import Pelanggan from 'views/Pelanggan/list_pelanggan';
 import Pengeluaran from 'views/Pengeluaran/list_pengeluaran';
 import Penjualan from 'views/Penjualan/list_penjualan';
 import Petugas from 'views/Petugas Desain/list_petugasa';
-import Supplier from 'views/Supplier/list_supplier';
 import Tarif from 'views/Tarif_Jasa/list_tarif';
 import Userlogin from 'views/user_login/list_user_login';
 import Useraccess from 'views/user_access/list_user_access';
@@ -29,22 +27,6 @@ var dashRoutes = [
     component: Auth(Dashboard),
     layout: "/admin",
     group: 'Dashboard'
-  },
-  {
-    path: "/pelanggan",
-    name: "pelanggan",
-    icon: "business_badge",
-    component: Auth(Pelanggan),
-    layout: "/admin",
-    group: 'setup'
-  },
-  {
-    path: "/supplier",
-    name: "supplier",
-    icon: "emoticons_satisfied",
-    component: Auth(Supplier),
-    layout: "/admin",
-    group: 'setup'
   },
   {
     path: "/satuan",

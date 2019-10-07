@@ -102,7 +102,7 @@ class Listtarif extends React.Component {
         nama_jasa: x.nama_jasa,
         jenis: x.jenis,
         satuan: x.satuan,
-        harga_jual1: x.harga,
+        harga_jual: x.harga_jual,
       })
     ))
     let xls = new XlsExport( data, 'dataJasa');

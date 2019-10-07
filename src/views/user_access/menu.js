@@ -270,6 +270,14 @@ let Menu = [
       component:'Laporan_retur',
       icon: "sport_user-run",
       layout: "/admin",
+    },
+    {
+      path: "/report17",
+      name: "Laporan Jenis Bahan",
+      group: 'report',
+      component:'Laporan_jenis_bahan',
+      icon: "sport_user-run",
+      layout: "/admin",
     }
   ];
   export default Menu;
